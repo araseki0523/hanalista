@@ -1,0 +1,115 @@
+@use "sass:math";
+
+////////////////////
+// インナー幅設定
+////////////////////
+// コンテンツのインナー幅（最も共通の幅が多い部分）
+$inner: 1200px;
+// ※キャンパス幅ではなくインナーの幅を指す
+
+// 余白
+$padding-pc: 25px;
+$padding-sp: 20px;
+// ※PC時：デザインカンプの余白の幅ではない。PC時は通常25pxで大丈夫！
+
+
+////////////////////
+// フォント設定
+////////////////////
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP&family=Noto+Serif+JP&family=Roboto&family=Sorts+Mill+Goudy&display=swap%27');
+$en-font: 'Roboto', sans-serif;
+$en-sub-font: 'Sorts Mill Goudy', serif;
+
+$base-font: 'Noto Serif JP', serif;
+$ja-sub-font: 'Noto Sans JP', sans-serif;
+$ja-third-font: 'HannariMincho', sans-serif;
+
+body {
+  font-family: $base-font;
+}
+
+// フォントウェイト
+$regular: 300;
+$normal: 400;
+$bold: 700;
+
+////////////////////
+// 色の指定
+////////////////////
+
+//色指定（共通性のあるものは出来る限り指定すると良い）
+$green-dark: #008B3E;
+$green-normal: #24AE2B;
+$green-light: #65C66A;
+
+$pink-dark: #935269;
+$pink-normal: #A37282;
+$pink-light: #D07D9A;
+
+$black: #3C3C3C;
+$white:#F3F3F5;
+$gray: #636363;
+
+$back-white:#FFFFFF;
+$back-gray: #F5F5F4;
+
+$black-sub: #362C32;
+$gray-sub: #8C8C8C;
+$white-sub: #FFFCF3;
+$pink-sub: #FFF0F4;
+$beige-sub: #F5EBEE; 
+
+
+////////////////////
+// メディアクエリとブレークポイントの設定
+////////////////////
+
+//ブレイクポイント
+$breakpoints: (
+  sm: 600,
+  md: 768,
+  lg: 1024,
+  xl: 1440,
+);
+
+
+//メディアクエリー
+$mediaquerys: (
+  sm: "screen and (min-width: #{map-get($breakpoints,'sm')}px)",
+  md: "screen and (min-width: #{map-get($breakpoints,'md')}px)",
+  lg: "screen and (min-width: #{map-get($breakpoints,'lg')}px)",
+  xl: "screen and (min-width: #{map-get($breakpoints,'xl')}px)",
+);
+
+// @include mq(){}で書くとブレークポイントが反映される（初期値はmd）
+@mixin mq($mediaquery: md) {
+  @media #{map-get($mediaquerys, $mediaquery)} {
+    @content;
+  }
+}
+
+// remへの計算式（16pxを基準としている。10pxを基準とする場合は16を10に変更する）
+@function rem($pixels) {
+  @return math.div($pixels, 16) * 1rem;
+}
+
+
+////////////////////
+// 非表示設定
+////////////////////
+
+//768px以上を表示
+.u-desktop {
+  display: none;
+  @include mq("md") {
+    display: block;
+  }
+}
+
+//モバイルのみ表示
+.u-mobile {
+  @include mq("md") {
+    display: none;
+  }
+}
